@@ -6,14 +6,21 @@ app = Flask(__name__)
 
 # Настроим подключение к базе данных PostgreSQL
 DATABASE_URL = os.getenv("DATABASE_URL")
-conn = psycopg2.connect(DATABASE_URL)
-cur = conn.cursor()
 
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    cur.execute("SELECT * FROM your_table")  # Замените на вашу таблицу
+    # Устанавливаем соединение с базой данных и создаем курсор
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+
+    # Выполняем запрос
+    cur.execute("SELECT * FROM employers_2unit")  # Замените на вашу таблицу
     rows = cur.fetchall()
+
+    # Закрываем соединение
+    cur.close()
+    conn.close()
 
     # Преобразуем строки в формат JSON
     return jsonify(rows)
