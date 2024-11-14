@@ -1,2 +1,2 @@
 # docker_project
-firts docker project usnig git
+firts docker project using git
