@@ -12,12 +12,18 @@ services:
     ports:
       - "5432:5432"
 
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"  # Опционально: открываем порт Redis для внешнего доступа
+
   app:
     build: .
     depends_on:
       - db
     environment:
       - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
+      - REDIS_URL=redis://redis:6379  # Добавьте эту строку
     ports:
       - "5001:5001"
     command: python app.py
